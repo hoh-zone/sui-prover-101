@@ -1,9 +1,10 @@
 ##  `prover` 模块
 
 `prover` 模块是一个仅包含规范内容的模块，它为编写规范提供了基础构建要素。
+
 ### `requires`函数
 
-`requires`函数用于指定该函数参数所应满足的条件。
+`requires` 用于指定函数参数必须满足的前提条件。
 
 ```rust
 requires(shares_in.value() <= pool.shares.supply_value());
@@ -11,46 +12,44 @@ requires(shares_in.value() <= pool.shares.supply_value());
 
 ###  `ensures` 函数
 
-`ensures`函数用于指定在调用该函数后必须满足的条件。
+`ensures` 用于指定函数调用后必须满足的后置条件。
 ```rust
 ensures(new_shares.mul(old_balance).lte(old_shares.mul(new_balance)));
 ```
 
 ### `asserts`函数
 
-`asserts`函数用于指定必须始终满足的条件。
+`asserts` 用于指定必须始终成立的条件断言。
 ```rust
 asserts(shares_in.value() <= pool.shares.supply_value());
 ```
 
 ###  `old` 宏函数
 
-`old` 这个宏用于指代函数调用之前对象的状态。
+`old` 用于引用函数调用前对象的状态值。
 ```rust
 let old_pool = old!(pool);
 ```
 
 ###  `to_int` 方法
 
-`to_int`方法用于将固定精度的无符号整数转换为无限制范围的整数。
-无限制范围的整数仅在执行规范时可用。
+`to_int` 将固定精度无符号整数转换为无界整数（仅在规范执行时可用）
 
 ```rust
 let x = 10u64.to_int();
 ```
 
 ###  `to_real` 方法
-`to_real` 方法用于将固定精度的无符号整数转换为任意精度的实数。
-这有助于确定舍入方向。
-实数仅在执行规范时可用。
+`to_real` 将固定精度无符号整数转换为任意精度实数（用于检查舍入方向，仅在规范执行时可用）。
+
 
 ```rust
 let x = 10u64.to_real();
 ```
 
-### Ghost 变量
+### 幽灵变量(Ghost variables)
 
-“幽灵变量”是指那些仅在规范中使用的全局变量。
+仅用于规范的全局变量，通过以下函数声明：
 这些变量是通过 `ghost::declare_global` 和 `ghost:：declare_global_mut` 函数来声明的：
 ```rust
 ghost::declare_global_mut<Name, Type>();
@@ -69,7 +68,7 @@ public struct MyGhostVariableName {}
 requires(ghost::global<MyGhostVariableName, _>() == true);
 ```
 
-### Loop `invariant`
+### 循环不变量(Loop invariant)
 
 循环不变量是指在循环的所有迭代过程中都必须满足的条件。
 如果规格说明中包含了在循环内部会被修改的变量的相关条件，那么就必须指定循环不变量。
