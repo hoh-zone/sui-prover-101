@@ -1,3 +1,5 @@
+本教程主要想从零开始教大家如何使用Sui Prover
+
 - [第一章]()
     - [Sui Prover介绍](./src/01_intro.md)
     - [开始例子](./src/02_example.md)
